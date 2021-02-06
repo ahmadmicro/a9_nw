@@ -233,8 +233,10 @@ class SSD1306_I2C(SSD1306):
     def write_data(self, buf):
 
         self.write_list[1] = buf
-
-        self.i2c.transmit(2, self.addr, self.write_list[0]+self.write_list[1], 100)
+        try:
+            self.i2c.transmit(2, self.addr, self.write_list[0]+self.write_list[1], 100)
+        except:
+            pass
 
 
 class SSD1306_SPI(SSD1306):

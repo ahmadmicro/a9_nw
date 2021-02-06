@@ -63,8 +63,8 @@ class Keypad_uasyncio():
         self.keys = [ { 'char':key, 'state':self.KEY_UP, 'down_count':0 } for key in keys ]
 
         ## Pin names for rows and columns.
-        self.rows = [ 27, 28, 29, 4, 5, 6 ]
-        self.cols = [ 25, 24, 23 ]
+        self.rows = [ 27, 28, 29, 4, 5, 9 ]
+        self.cols = [ 25, 14, 15 ]
 
         ## Initialise row pins as outputs.
         self.row_pins = [ Pin(pin_name, Pin.OUT, 0) for pin_name in self.rows ]
@@ -147,11 +147,9 @@ class Keypad_uasyncio():
                     ## Process key event.
                     if key_event == self.KEY_UP:
                         key_char = self.keys[key_code]['char']
-                        print(key_char)
                         await self.queue.put(key_char)
                     elif key_event == self.KEY_DOWN_LONG:
                         key_char = self.chars_long[key_code]
-                        print(key_char)
                         await self.queue.put(key_char)
 
                     key_code += 1
@@ -171,7 +169,7 @@ async def keypad_watcher(keypad):
 
 ##============================================================================
 
-def main_test():
+def main_test(keywatcher=keypad_watcher):
     """Main test function."""
 
     print("main_test(): start")
@@ -186,7 +184,7 @@ def main_test():
 
     ## Add the keypad scanning and keypad watcher coroutines.
     loop.create_task(keypad.scan_coro())
-    loop.create_task(keypad_watcher(keypad=keypad))
+    loop.create_task(keywatcher(keypad=keypad))
 
     ## Start running the coroutines
     loop.run_forever()
