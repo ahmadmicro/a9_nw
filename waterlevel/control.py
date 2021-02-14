@@ -140,7 +140,7 @@ class control:
             return self.get(item)'''
 
     def __setattr__(self, key, value):
-        if key in ['nw', 'nodes', 'sender', 'inputs', 'outputs']:
+        if key in ['nw', 'nodes', 'sender', 'inputs', 'outputs', 'queue']:
             super(control, self).__setattr__(key, value)
         else:
             if key.startswith('on_'):

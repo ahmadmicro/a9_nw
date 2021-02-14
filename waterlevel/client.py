@@ -28,7 +28,7 @@ class client():
                     except Exception as ex: # todo use specified exception type
                         print(str(ex))
                         if self.received:
-                            self.received('disconnected')
+                            uasyncio.create_task(self.received('disconnected'))
                         break
                 print('Close the socket')
                 while True:
